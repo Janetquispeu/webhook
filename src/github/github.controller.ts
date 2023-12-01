@@ -8,11 +8,17 @@ export class GithubController {
   @Post( '/' )
   webhookHandler(
     @Headers( 'x-github-event' ) githubEvent: any,
+    @Headers('X-Hub-Signature-256') signature: string,
     @Body() body: any,
   ) {
 
-    console.log({ githubEvent });
+    console.log({ signature  }, githubEvent);
 
-    return { githubEvent };
+
+    // console.log({ githubEvent });
+    this.githubService.handlePayload( githubEvent, body );
+
+
+    return {  githubEvent }
   }
 }
